@@ -1,0 +1,10 @@
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('./Roboto-Black.ttf');
+}
+
+* {
+    font-family: 'Roboto',sans-serif;
+}
+

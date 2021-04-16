@@ -1,0 +1,11 @@
+{
+    "parser": "babel-eslint",
+    "rules": {
+        "no-unused-vars": "error",
+        "semi": ["error","never"]
+    },
+    "env": {
+        "es6": true,
+        "browser": true
+    }
+}
