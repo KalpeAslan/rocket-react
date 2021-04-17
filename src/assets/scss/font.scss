@@ -1,0 +1,8 @@
+@mixin font($url,$name){
+    @font-face {
+        font-family: $name,sans-serif;
+        src: url($url);
+    }
+}
+
+@include font('../fonts/Roboto-Black.ttf','Roboto');

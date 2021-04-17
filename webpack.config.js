@@ -64,7 +64,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [{
-                from: path.resolve(__dirname, 'src/favicon.ico'),
+                from: path.resolve(__dirname, 'src/assets/icons/favicon.ico'),
                 to: path.resolve(__dirname, 'dist')
             }, ],
         }),
@@ -76,18 +76,18 @@ module.exports = {
     module: {
         rules: [
             /**
-             * css files
+             * *css files
              */
             {
                 test: /\.css$/,
                 use: cssLoader()
             },
             {
-                test: /\.scss$/,
+                test: /\.s[ac]ss$/,
                 use: cssLoader('sass-loader')
             },
             /**
-             * images and fonts
+             * *images and fonts
              */
             {
                 test: /\.(png|jpg|jpeg|svg|gif|webp)$/,
@@ -98,7 +98,7 @@ module.exports = {
                 use: ['file-loader']
             },
             /**
-             * JS files
+             * *JS files
              */
             {
                 test: /\.m?js$/,
@@ -129,6 +129,17 @@ module.exports = {
         // extensions: ['js', 'jsx', 'ts', 'css', 'scss', 'png', 'jpeg', 'svg', 'webp', 'gif'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
+            assets: './src/assets/',
+            images: './src/assets/images/',
+            icons: './src/assets/icons/',
+            scss: './src/assets/scss/',
+            atoms: './src/components/atoms',
+            moleculus: './src/components/moleculus',
+            organisms: './src/components/organisms',
+            templates: './src/components/templates',
+            api: './src/api/',
+            pages: './src/pages/',
+            services: './src/services/',
         }
     },
     optimization: {
