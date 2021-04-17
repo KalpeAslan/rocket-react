@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
+const EslintPlugin = require('eslint-webpack-plugin')
 const fileName = (ext) => isDev ? `[name].[contenthash].${ext}` : `[name].[contenthash].${ext}`
 
 const {
@@ -22,14 +22,13 @@ const cssLoader = (loader) => {
 }
 const babelOptions = (loader) => {
     const loaders = {
-        loader: "babel-loader",
+        loader: 'babel-loader',
         options: {
             presets: ['@babel/preset-env'],
             plugins: [
                 '@babel/plugin-proposal-class-properties'
             ]
         },
-
     }
     if (loader) {
         loaders.options.presets.push(loader)
@@ -37,16 +36,8 @@ const babelOptions = (loader) => {
     return loaders
 }
 
-const jsLoaders = () => {
-    const loaders = [{
-        loader: 'babel-loader',
-        options: babelOptions()
-    }]
-    if (isDev) {
-        loaders.push('eslint-loader')
-    }
-    return loaders
-}
+const getPath = (pathElem) => path.resolve(__dirname, pathElem)
+
 
 module.exports = {
     mode: 'development',
@@ -58,6 +49,9 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     plugins: [
+        isDev && new EslintPlugin({
+            extensions: ['js', 'jsx', 'ts']
+        }),
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
@@ -76,18 +70,18 @@ module.exports = {
     module: {
         rules: [
             /**
-             * *css files
+             * css files
              */
             {
                 test: /\.css$/,
                 use: cssLoader()
             },
             {
-                test: /\.s[ac]ss$/,
+                test: /\.scss$/,
                 use: cssLoader('sass-loader')
             },
             /**
-             * *images and fonts
+             * images and fonts
              */
             {
                 test: /\.(png|jpg|jpeg|svg|gif|webp)$/,
@@ -98,12 +92,13 @@ module.exports = {
                 use: ['file-loader']
             },
             /**
-             * *JS files
+             * JS files
              */
             {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
-                use: jsLoaders()
+                // use: jsLoaders()
+                use: babelOptions()
             },
             {
                 test: /\.m?ts$/,
@@ -129,17 +124,16 @@ module.exports = {
         // extensions: ['js', 'jsx', 'ts', 'css', 'scss', 'png', 'jpeg', 'svg', 'webp', 'gif'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
-            assets: './src/assets/',
-            images: './src/assets/images/',
-            icons: './src/assets/icons/',
-            scss: './src/assets/scss/',
-            atoms: './src/components/atoms',
-            moleculus: './src/components/moleculus',
-            organisms: './src/components/organisms',
-            templates: './src/components/templates',
-            api: './src/api/',
-            pages: './src/pages/',
-            services: './src/services/',
+            images: getPath('./src/assets/images/'),
+            icons: getPath('./src/assets/icons/'),
+            scss: getPath('./src/assets/scss/'),
+            atoms: getPath('./src/components/atoms/'),
+            moleculus: getPath('./src/components/moleculus/'),
+            organisms: getPath('./src/components/organisms/'),
+            template: getPath('./src/components/templates/'),
+            api: getPath('./src/api/'),
+            pages: getPath('./src/pages/'),
+            services: getPath('./src/services/'),
         }
     },
     optimization: {
