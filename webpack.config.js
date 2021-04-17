@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
+const EslintPlugin = require('eslint-webpack-plugin')
 const fileName = (ext) => isDev ? `[name].[contenthash].${ext}` : `[name].[contenthash].${ext}`
 
 const {
@@ -22,14 +22,13 @@ const cssLoader = (loader) => {
 }
 const babelOptions = (loader) => {
     const loaders = {
-        loader: "babel-loader",
+        loader: 'babel-loader',
         options: {
             presets: ['@babel/preset-env'],
             plugins: [
                 '@babel/plugin-proposal-class-properties'
             ]
         },
-
     }
     if (loader) {
         loaders.options.presets.push(loader)
@@ -37,16 +36,7 @@ const babelOptions = (loader) => {
     return loaders
 }
 
-const jsLoaders = () => {
-    const loaders = [{
-        loader: 'babel-loader',
-        options: babelOptions()
-    }]
-    if (isDev) {
-        loaders.push('eslint-loader')
-    }
-    return loaders
-}
+
 
 module.exports = {
     mode: 'development',
@@ -58,6 +48,9 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     plugins: [
+        isDev && new EslintPlugin({
+            extensions: ['js', 'jsx', 'ts']
+        }),
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
@@ -103,7 +96,8 @@ module.exports = {
             {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
-                use: jsLoaders()
+                // use: jsLoaders()
+                use: babelOptions()
             },
             {
                 test: /\.m?ts$/,
