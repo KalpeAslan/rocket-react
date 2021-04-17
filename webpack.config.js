@@ -42,7 +42,7 @@ const getPath = (pathElem) => path.resolve(__dirname, pathElem)
 module.exports = {
     mode: 'development',
     entry: {
-        main: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.js')],
+        main: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.jsx')],
     },
     output: {
         filename: fileName('js'),
