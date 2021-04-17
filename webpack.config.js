@@ -41,7 +41,7 @@ const babelOptions = (loader) => {
 module.exports = {
     mode: 'development',
     entry: {
-        main: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.js')],
+        main: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.jsx')],
     },
     output: {
         filename: fileName('js'),
@@ -57,7 +57,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [{
-                from: path.resolve(__dirname, 'src/favicon.ico'),
+                from: path.resolve(__dirname, 'src/assets/icons/favicon.ico'),
                 to: path.resolve(__dirname, 'dist')
             }, ],
         }),
@@ -123,6 +123,16 @@ module.exports = {
         // extensions: ['js', 'jsx', 'ts', 'css', 'scss', 'png', 'jpeg', 'svg', 'webp', 'gif'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
+            images: getPath('./src/assets/images/'),
+            icons: getPath('./src/assets/icons/'),
+            scss: getPath('./src/assets/scss/'),
+            atoms: getPath('./src/components/atoms/'),
+            moleculus: getPath('./src/components/moleculus/'),
+            organisms: getPath('./src/components/organisms/'),
+            template: getPath('./src/components/templates/'),
+            api: getPath('./src/api/'),
+            pages: getPath('./src/pages/'),
+            services: getPath('./src/services/'),
         }
     },
     optimization: {
